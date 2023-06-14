@@ -14,6 +14,7 @@ function limpar_texto($telefone) {
         $email = $_POST['email'];
         $telefone = $_POST['telefone'];
         $nascimento = $_POST['nascimento'];
+        $admin = $_POST['admin'];
 
         if(empty($name)) {
             $erro = "Preencha o nome";
@@ -43,7 +44,7 @@ function limpar_texto($telefone) {
         if($erro) {
             echo "<p><b>$erro</b></p>";
         }else {
-            $sql_code = "INSERT INTO clientes (nome, email, telefone, nascimento, data) VALUES ('$name', '$email', '$telefone', '$nascimento', NOW())";
+            $sql_code = "INSERT INTO clientes (nome, email, telefone, nascimento, data, admin) VALUES ('$name', '$email', '$telefone', '$nascimento', NOW(), '$admin')";
             $deu_certo = $mysqli -> query($sql_code) or die($mysqli ->error);
             if($deu_certo) {
                 echo "<p><b> Cliente cadastrado com sucesso!</b></p>";
@@ -79,6 +80,11 @@ function limpar_texto($telefone) {
         <p>
             <label>Data de Nascimento: </label>
             <input value="<?php if(isset($_POST['nascimento'])) echo $_POST['nascimento'] ?>" placeholder="19/02/1994" name="nascimento" type="text"><br/><br />
+        </p>
+        <p>
+            <label>Tipo:</label>
+            <input name="admin" value="1" type="radio">Admin
+            <input name="admin" value="0" checked type="radio">Cliente
         </p>
         <p>
             <button type="submit">Enviar</button>

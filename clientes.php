@@ -23,6 +23,9 @@ $num_clientes = $query_clientes -> num_rows;
                 ID
             </th>
             <th>
+                É admin?
+            </th>
+            <th>
                 Nome
             </th>
             <th>
@@ -44,21 +47,18 @@ $num_clientes = $query_clientes -> num_rows;
         <tbody>
             <?php if($num_clientes == 0) { ?>
                 <tr>
-                    <td coldspan="7">Nenhum cliente cadastrado</td>
+                    <td coldspan="8">Nenhum cliente cadastrado</td>
                 </tr>
             <?php }else { 
                 while($clientes = $query_clientes -> fetch_assoc()) {
 
                     $telefone = "Não informado";
-                    if(!empty($clientes['telefone'])) {
-                        $ddd = substr($clientes['telefone'], 0, 2);
-                        $parteum = substr($clientes['telefone'], 2, 5);
-                        $partedois = substr($clientes['telefone'], 7);
-                        $telefone = "($ddd) $parteum-$partedois";
+                    if(!empty($cliente['telefone'])) {
+                        $telefone = formatar_telefone($clientes['telefone']);
                     }
                     $nascimento = "Não informado";
                     if(!empty($clientes['nascimento'])) {
-                        $nascimento = implode('/', array_reverse(explode('-', $clientes['nascimento'])));
+                        $nascimento = formatar_data($clientes['nascimento']);
 
                     }
 
@@ -69,10 +69,13 @@ $num_clientes = $query_clientes -> num_rows;
                         <?php echo $clientes['id']; ?>
                     </td>
                     <td>
+                        <?php if($clientes['admin']) echo "Sim"; else echo "Não"; ?>
+                    </td>
+                    <td>
                         <?php echo $clientes['nome']; ?>
                     </td>
                     <td>
-                        <?php echo $clientes['email']; ?>
+                        <?php echo $clientes['email'] ?>
                     </td>
                     <td>
                         <?php echo $telefone; ?>
